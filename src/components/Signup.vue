@@ -3,13 +3,15 @@
         <!-- v-model is for input bindings -->
         NAME:<input type="text" v-model="name"/><br>
         EMAIL:<input type="text" v-model="email"/><br>
-        PASSWORD:<input type="text" v-model="password"/><br>
+        PASSWORD:<input type="password" v-model="password"/><br>
         <!-- call signup function -->
         <button @click="signup">Sign up</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Signup',
     data(){
@@ -21,10 +23,13 @@ export default {
     },
     methods:{
         signup(){
-            console.log(this.name);
-            console.log(this.email);
-            console.log(this.password);
-        }
+            let newUser = {
+                name: this.name,
+                email: this.email,
+                password: this.password
+            }
+            axios.post('http://localhost:5000/signup', newUser);
+        },
     }
 }
 </script>
