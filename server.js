@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const user = require('./models/User');
 const bcrypt = require('bcrypt');
+mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
 
 const app = express();
 
@@ -19,9 +20,19 @@ app.post('/signup', (req,res)=>{
         name: req.body.name,
         email: req.body.email,
         //password storage, bcrypt(value, saltRounds ) salt is stored
-        password: bcrypt.hashSync(req.body.password, 5)
+        password: bcrypt.hashSync(req.body.password, 10)
     })
-    console.log(req.body);
+    newUser.save(err =>{
+        if(err){
+            return res.status(400).json({
+                title:'error',
+                error:'An error occured'
+            })
+        }
+            return res.status(200).json({
+                title:'success'
+        })
+    })
 })
 
 app.get('/', (req, res) =>{

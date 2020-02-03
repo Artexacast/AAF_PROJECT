@@ -28,7 +28,12 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            axios.post('http://localhost:5000/signup', newUser);
+            axios.post('http://localhost:5000/signup', newUser)
+            .then(res =>{
+                console.log(res);
+            }, err=>{
+                console.log(err.response);
+            })
         },
     }
 }
