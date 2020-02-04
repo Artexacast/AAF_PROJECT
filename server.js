@@ -26,7 +26,7 @@ app.post('/signup', (req,res)=>{
         if(err){
             return res.status(400).json({
                 title:'error',
-                error:err
+                error:'email in use'
             })
         }
             return res.status(200).json({
