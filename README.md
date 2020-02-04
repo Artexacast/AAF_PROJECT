@@ -8,6 +8,10 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve
+npm run server
+
+localhost:5000 for node server
+localhost:8080 for front end
 ```
 
 ### Compiles and minifies for production
