@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const user = require('./models/User');
+const User = require('./models/User');
 const bcrypt = require('bcrypt');
 mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
 
@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 
 app.post('/signup', (req,res)=>{
 
-    const newUser = new user({
+    const newUser = new User({
         name: req.body.name,
         email: req.body.email,
         //password storage, bcrypt(value, saltRounds ) salt is stored
@@ -37,7 +37,8 @@ app.post('/signup', (req,res)=>{
 
 app.post('/login', (req, res)=>{
     //emails are unique, so single email find will suffice
-    user.findOne({email: req.body.email}, (err, user) => {
+ 
+    User.findOne({email: req.body.email}, (err, user) => {
         if(err){
             return res.status(500).json({
                 title:'error',
@@ -53,12 +54,13 @@ app.post('/login', (req, res)=>{
         }
         //incorrect password
         if(!bcrypt.compareSync(req.body.password, user.password)){
-            if(err){
+            console.log(req.body.password, user.password);
+      
                 return res.status(401).json({
                     title:'Unauthorized: User not found',
-                    error:'User not found'
+                    error:'Incorrect password'
                 })
-            }
+            
         }
     })
 })
