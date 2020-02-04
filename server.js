@@ -26,12 +26,40 @@ app.post('/signup', (req,res)=>{
         if(err){
             return res.status(400).json({
                 title:'error',
-                error:'An error occured'
+                error:err
             })
         }
             return res.status(200).json({
                 title:'success'
         })
+    })
+})
+
+app.post('/login', (req, res)=>{
+    //emails are unique, so single email find will suffice
+    user.findOne({email: req.body.email}, (err, user) => {
+        if(err){
+            return res.status(500).json({
+                title:'error',
+                error:err
+            })
+        }
+        //no user email is found
+        if(!user){
+            return res.status(401).json({
+                title:'Unauthorized: User not found',
+                error:'User not found'
+            })
+        }
+        //incorrect password
+        if(!bcrypt.compareSync(req.body.password, user.password)){
+            if(err){
+                return res.status(401).json({
+                    title:'Unauthorized: User not found',
+                    error:'User not found'
+                })
+            }
+        }
     })
 })
 
