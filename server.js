@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
 
 const app = express();
@@ -55,16 +56,42 @@ app.post('/login', (req, res)=>{
         //incorrect password
         if(!bcrypt.compareSync(req.body.password, user.password)){
             console.log(req.body.password, user.password);
-      
-                return res.status(401).json({
-                    title:'Unauthorized: User not found',
-                    error:'Incorrect password'
-                })
-            
+    
+            return res.status(401).json({
+                title:'Unauthorized: User not found',
+                error:'Incorrect password'
+            })
         }
+
+        //if successful login
+        let token = jwt.sign({userId: user._id}, 'eMXdP7P5jY58zbeq');
+        return res.status(200).json({
+            title: 'Login Success',
+            token: token
+        })
     })
 })
 
+
+app.get('/user', (req, res)=>{
+    let token = req.headers.token;
+    jwt.verify(token, 'eMXdP7P5jY58zbeq', (err, decoded) =>{
+        if(err) return res.status(401).json({
+            title:'Unauthorized'
+        })
+        console.log(decoded);
+        User.findOne({_id: decoded.userId}, (err, user)=>{
+            if(err) return console.log(err)
+            return res.status(200).json({
+                title: 'user info',
+                user:{
+                    email: user.email,
+                    name: user.name
+                }
+            })
+        })
+    })
+})
 app.get('/', (req, res) =>{
     res.send('hello');
 });
