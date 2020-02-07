@@ -14,7 +14,13 @@
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagTwo"></multiselect>
     <pre class="language-json"><code>{{ value  }}</code></pre>
   </div>
-        <!-- <button @click="mergeObjects">Merge</button> -->
+    <br>
+  <div>
+    <label class="typo__label">Tagging</label>
+    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagThree"></multiselect>
+    <pre class="language-json"><code>{{ value  }}</code></pre>
+  </div>
+        <button @click="mergeObject">Merge</button>
 
 </div>
   
@@ -24,7 +30,8 @@
 
 //import axios from 'axios';
 //import moment from  'moment';
-import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect';
+import moment from 'moment';
 
 export default {
   name: 'NewDocument',
@@ -37,9 +44,6 @@ export default {
   
       ],
       options: [
-        { name: 'Vue.js', code: 'vu' },
-        { name: 'Javascript', code: 'js' },
-        { name: 'Open Source', code: 'os' }
       ]
     }
   },
@@ -59,20 +63,26 @@ export default {
             }
             this.value.push(tag);
             console.log(tag);
-            let object = {
-                title: this.value[0].name,
-                author: this.value[1].author
-            };
-           // document.push(object);
-            console.log(object);
-      //      this.$router.push('/');
-           // console.log(document);
+            // this.$router.push('/');
+        },
+        addTagThree(tag2){
+               const tag = {
+                optional: tag2
+            }
+            this.value.push(tag);
+            console.log(tag);
+            // this.$router.push('/');
         },
         mergeObject(){
-            let merge = {
-                name:Object.values(this.value[1])
+        let object = {
+                title: this.value[0].name,
+                author: this.value[1].author,
+                date: moment().unix(),
+                checkedout: 0,
+                checkedoutby: '',
+                optional: this.value[2].optional
             };
-            console.log(merge);
+            console.log(object);
         }
     }
 }
