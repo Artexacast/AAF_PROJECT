@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/User');
+const Doc = require('./models/Document');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
@@ -72,7 +73,6 @@ app.post('/login', (req, res)=>{
     })
 })
 
-
 app.get('/user', (req, res)=>{
     let token = req.headers.token;
     jwt.verify(token, 'eMXdP7P5jY58zbeq', (err, decoded) =>{
@@ -91,6 +91,15 @@ app.get('/user', (req, res)=>{
             })
         })
     })
+})
+
+app.post('/newdocument', (req, res)=>{
+    const newDocument = new Document({
+         name: req.body.name,
+         email: req.body.email,
+    })
+}
+
 })
 app.get('/', (req, res) =>{
     res.send('hello');
