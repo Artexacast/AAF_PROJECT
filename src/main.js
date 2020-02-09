@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import Landing from  './components/Landing';
 import Login from  './components/Login';
 import Signup from  './components/Signup';
-import NewDocument from './components/MetaBox'
+import NewDocument from './components/NewDocument'
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;

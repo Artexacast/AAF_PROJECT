@@ -26,7 +26,7 @@ export default {
                 email: this.email,
                 password: this.password
             }
-           // console.log(user);
+            
             axios.post('http://localhost:5000/login', user)
             .then(res =>{
                 //if success

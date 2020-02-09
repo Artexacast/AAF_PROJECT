@@ -3,11 +3,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/User');
-const Doc = require('./models/Document');
+const Document = require('./models/Document');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+
 mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
 
+let db = mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority');
 const app = express();
 
 app.use(cors());
@@ -17,11 +19,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 const port = process.env.PORT || 5000;
 
 app.post('/signup', (req,res)=>{
-
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        //password storage, bcrypt(value, saltRounds ) salt is stored
         password: bcrypt.hashSync(req.body.password, 10)
     })
     newUser.save(err =>{
@@ -94,13 +94,28 @@ app.get('/user', (req, res)=>{
 })
 
 app.post('/newdocument', (req, res)=>{
-    const newDocument = new Document({
-         name: req.body.name,
-         email: req.body.email,
+    console.log(req.body);
+        const newDocument = new Document({
+         date: req.body.date,
+         author: req.body.author,
+         checkedout: req.body.checkedout,
+         checkedoutby: req.body.checkedoutby,
+         doctitle: req.body.title,
+         creator: req.body.creator
     })
-}
-
+    newDocument.save( err =>{
+        if(err){
+            return res.status(400).json({
+                title:'error',
+                error:'email in use'
+            })
+        }
+            return res.status(200).json({
+                title:'success'
+        })
+    })
 })
+
 app.get('/', (req, res) =>{
     res.send('hello');
 });
