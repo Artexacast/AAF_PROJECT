@@ -64,21 +64,6 @@ export default {
             localStorage.clear();
             this.$router.push('/login');
         },
-       
-        // newDocument(){
-        //     let document = this.value;
-
-        //     axios.post('http://localhost:5000/newdocument', document)
-        //     .then(res =>{
-        //         console.log(res);
-        //         this.error = '';
-        //         this.$router.push('/landing');
-        //     }, err=>{
-        //         console.log(err.response);
-        //         this. error = err.response.data.error
-        //     })
-        // }
-       
     }
 }
 

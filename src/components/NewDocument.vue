@@ -45,6 +45,7 @@ export default {
       options: [
       ],
       name:'',
+      email: ''
     }
   },
     mounted(){
@@ -89,7 +90,8 @@ export default {
               console.log(res);
                 this.name = res.data.user.name;
               this.email =res.data.user.email;
-            
+            let local = localStorage.getItem("token");
+            console.log(local);
           console.log(this.value)
           let object = {
                   title: this.value[0].name,
@@ -105,8 +107,8 @@ export default {
               .then(res =>{
                   //if success
                   if(res.status == 200){
-                     localStorage.setItem('token', res.data.token);
-                     this.$router.push('/newdocument');
+                     console.log("Success");
+                    // this.$router.push('/newdocument');
                   }
                   this.error = '';
               }, err => {
