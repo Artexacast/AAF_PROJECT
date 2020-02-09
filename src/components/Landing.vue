@@ -3,7 +3,7 @@
         <button @click="logout">Logout</button>
             <p>{{name}}</p>
             <p>{{email}}</p><br>
-            <div>
+            <!-- <div> -->
   <!-- <label class="typo__label">Tagging</label>
   <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTag"></multiselect>
   <pre class="language-json"><code>{{ value  }}</code></pre>
@@ -24,15 +24,13 @@
 <script type="text/x-template" id="modal-template">
 
 import axios from 'axios';
-import Multiselect from 'vue-multiselect';
+//import Multiselect from 'vue-multiselect';
 //import objectmerge from 'object-merge';
 
 export default {
 
         name: 'Landing',
-        components: {
-        Multiselect
-    },
+
     data(){
        return {
       value: [
