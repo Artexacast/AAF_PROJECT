@@ -1,22 +1,22 @@
 <template>
  <div>
           <!-- <button @click="logout">Logout</button> -->
-              <!-- <p>{{name}}</p> -->
-              <!-- <p>{{email}}</p><br> -->
+              <p>{{name}}</p>
+              <p>{{email}}</p><br>
               <div>
-    <label class="typo__label">Tagging</label>
+    <label class="typo__label">Document Title</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTag"></multiselect>
     <pre class="language-json"><code>{{ value }}</code></pre>
   </div>
     <br>
   <div>
-    <label class="typo__label">Tagging</label>
+    <label class="typo__label">Document Author</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagTwo"></multiselect>
     <pre class="language-json"><code>{{ value }}</code></pre>
   </div>
     <br>
   <div>
-    <label class="typo__label">Tagging</label>
+    <label class="typo__label">Optional Tags</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagThree"></multiselect>
     <pre class="language-json"><code>{{ value }}</code></pre>
   </div>
@@ -28,8 +28,6 @@
 
 <script>
 
-//import axios from 'axios';
-//import moment from  'moment';
 import Multiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from 'axios' 
@@ -49,14 +47,16 @@ export default {
       name:'',
     }
   },
+    mounted(){
+        axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
+            .then(res=>{
+                console.log(res);
+               this.name = res.data.user.name;
+               this.email =res.data.user.email;
+            })
+        },
 //   created(){
-// //  axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
-// //             .then(res=>{
-// //                 console.log(res);
-// //                 this.name = res.data.user.name;
-// //                 this.email =res.data.user.email;
-// //             })
-// //   },
+
   methods: {
      addTag(newTag) {
           const tag = {
@@ -84,6 +84,12 @@ export default {
             // this.$router.push('/');
         },
         sendObject(){
+            axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
+           .then(res=>{
+              console.log(res);
+                this.name = res.data.user.name;
+              this.email =res.data.user.email;
+            
           console.log(this.value)
           let object = {
                   title: this.value[0].name,
@@ -108,6 +114,7 @@ export default {
                   console.log(err.response);
                   this.error = err.response.data.error;
               })
+            })
         }
   }
 }

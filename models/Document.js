@@ -4,12 +4,13 @@ const Schema = mongoose.Schema;
 // let currTime = Math.floor(Date.now() / 1000) ;
 
 const docSchema = new Schema({
-    date:  Date, 
+    date:  Number, 
     author: String,
     checkedout: Number,
     checkedoutby: String,
     doctitle: String,
-    creator: String
+    creator: String,
+    optional: String
 })
 
 const doc = mongoose.model('Document', docSchema);

@@ -101,7 +101,8 @@ app.post('/newdocument', (req, res)=>{
          checkedout: req.body.checkedout,
          checkedoutby: req.body.checkedoutby,
          doctitle: req.body.title,
-         creator: req.body.creator
+         creator: req.body.creator,
+         optional: req.body.optional
     })
     newDocument.save( err =>{
         if(err){
