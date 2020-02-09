@@ -26,15 +26,14 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            
             axios.post('http://localhost:5000/login', user)
             .then(res =>{
                 //if success
                 if(res.status == 200){
-                   localStorage.setItem('token', res.data.token);
-                this.$router.push('/');
+                    localStorage.setItem('token', res.data.token);
+                    this.$router.push('/');
                 }
-                this.error = '';
+                    this.error = '';
             }, err => {
                 console.log("error here");
                 console.log(err.response);

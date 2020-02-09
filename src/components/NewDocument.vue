@@ -56,13 +56,11 @@ export default {
                this.email =res.data.user.email;
             })
         },
-//   created(){
-
+        
   methods: {
      addTag(newTag) {
           const tag = {
                   name: newTag,
-            //     code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))   
               }
               //
               this.options.push(tag)
@@ -74,7 +72,6 @@ export default {
             }
             this.value.push(tag);
             console.log(tag);
-            // this.$router.push('/');
         },
         addTagThree(tag2){
                const tag = {
@@ -82,25 +79,21 @@ export default {
             }
             this.value.push(tag);
             console.log(tag);
-            // this.$router.push('/');
         },
         sendObject(){
             axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
            .then(res=>{
-              console.log(res);
-                this.name = res.data.user.name;
-              this.email =res.data.user.email;
-            let local = localStorage.getItem("token");
-            console.log(local);
-          console.log(this.value)
-          let object = {
-                  title: this.value[0].name,
-                  author: this.value[1].author,
-                  creator: this.name,
-                  date: moment().unix(),
-                  checkedout: 0,
-                  checkedoutby: '',
-                  optional: this.value[2].optional
+            console.log(res);
+            this.name = res.data.user.name;
+            this.email =res.data.user.email;
+            let object = {
+                title: this.value[0].name,
+                author: this.value[1].author,
+                creator: this.name,
+                date: moment().unix(),
+                checkedout: 0,
+                checkedoutby: '',
+                optional: this.value[2].optional
               };
               console.log(object);
               axios.post('http://localhost:5000/newdocument', object)

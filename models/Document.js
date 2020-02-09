@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const moment = require('moment');
-// let currTime = Math.floor(Date.now() / 1000) ;
 
 const docSchema = new Schema({
     date:  Number, 
