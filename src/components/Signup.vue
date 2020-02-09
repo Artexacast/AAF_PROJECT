@@ -6,7 +6,9 @@
         PASSWORD:<input type="password" v-model="password"/><br>
         <!-- call signup function -->
         <button @click="signup">Sign up</button>
+        {{error}}
     </div>
+    
 </template>
 
 <script>
@@ -18,7 +20,8 @@ export default {
         return{
             name:'',
             email:'',
-            password:''
+            password:'',
+            error: '',
         }
     },
     methods:{
@@ -28,7 +31,15 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            axios.post('http://localhost:5000/signup', newUser);
+            axios.post('http://localhost:5000/signup', newUser)
+            .then(res =>{
+                console.log(res);
+                this.error = '';
+                this.$router.push('/login');
+            }, err=>{
+                console.log(err.response);
+                this. error = err.response.data.error
+            })
         },
     }
 }
