@@ -97,11 +97,17 @@ app.get('/user', (req, res)=>{
 app.get('/editdocument', (req, res)=>{
     Document.find({}, function(err, docs){
         let docMap = {};
-
         docs.forEach(function(doc){
-            docMap[doc._id] = doc;
+            docMap[doc] = doc;
         });
-        res.send(docMap);
+      //  res.send(docMap);
+      console.log(docs);
+
+         return res.status(200).json({
+                title: 'Documents',
+                docs
+               
+            })
     })
 })
 

@@ -4,7 +4,7 @@
               <p>{{name}}</p>
               <p>{{email}}</p><br>
               <div>
-    <label class="typo__label">Document Title</label>
+    <!-- <label class="typo__label">Document Title</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTag"></multiselect>
     <pre class="language-json"><code>{{ value }}</code></pre>
   </div>
@@ -18,8 +18,14 @@
   <div>
     <label class="typo__label">Optional Tags</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagThree"></multiselect>
-    <pre class="language-json"><code>{{ value }}</code></pre>
-  </div>
+    <pre class="language-json"><code>{{ value }}</code></pre> -->
+<ul id="example-1">
+  <li v-for="item in allDocs" v-bind:key="item">
+    {{item}}
+  </li>
+</ul>
+
+</div>
         <button @click="sendObject">Submit</button>
 </div>
   
@@ -27,24 +33,29 @@
 
 <script>
 
-import Multiselect from 'vue-multiselect';
+//import Multiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from 'axios' 
 
 export default {
   name: 'NewDocument',
   components: {
-    Multiselect
+    //Multiselect
   },
   data () {
     return {
       value: [
-  
       ],
+
       options: [
       ],
+
       name:'',
-      email: ''
+      email: '',
+      
+      allDocs:[
+
+      ]
     }
   },
     mounted(){
@@ -57,7 +68,9 @@ export default {
          axios.get('http://localhost:5000/editdocument')
          .then(res=>{
              console.log("Docs here");
-             console.log(res);
+           //  console.log(res);
+             this.item = res.data;
+             console.log(this.item);
          })
     },
         
