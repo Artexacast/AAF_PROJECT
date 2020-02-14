@@ -54,9 +54,14 @@ export default {
                this.name = res.data.user.name;
                this.email =res.data.user.email;
             })
-        },
+         axios.get('http://localhost:5000/editdocument')
+         .then(res=>{
+             console.log("Docs here");
+             console.log(res);
+         })
+    },
         
-  methods: {
+    methods: {
      addTag(newTag) {
           const tag = {
                   name: newTag,

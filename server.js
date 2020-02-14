@@ -9,7 +9,8 @@ const jwt = require('jsonwebtoken');
 
 mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority')
 
-let db = mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority');
+let url  = mongoose.connect('mongodb+srv://Artex:admin@testcluster-6u9qi.azure.mongodb.net/test?retryWrites=true&w=majority');
+
 const app = express();
 
 app.use(cors());
@@ -90,6 +91,17 @@ app.get('/user', (req, res)=>{
                 }
             })
         })
+    })
+})
+
+app.get('/editdocument', (req, res)=>{
+    Document.find({}, function(err, docs){
+        let docMap = {};
+
+        docs.forEach(function(doc){
+            docMap[doc._id] = doc;
+        });
+        res.send(docMap);
     })
 })
 
