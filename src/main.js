@@ -4,7 +4,8 @@ import VueRouter from 'vue-router';
 import Landing from  './components/Landing';
 import Login from  './components/Login';
 import Signup from  './components/Signup';
-import NewDocument from './components/NewDocument'
+import NewDocument from './components/NewDocument';
+import EditDocument from './components/EditDocument';
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
@@ -13,7 +14,8 @@ const routes = [
     { path: '/', component: Landing },
     {path: '/signup', component: Signup},
     {path: '/login', component: Login},
-    {path: '/newdocument', component: NewDocument}
+    {path: '/newdocument', component: NewDocument},
+    {path: '/editdocument', component: EditDocument}
 ]
 
 const router = new VueRouter({
