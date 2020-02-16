@@ -23,7 +23,11 @@
     "object-merge": "^2.5.1",
     "vue": "^2.6.11",
     "vue-multiselect": "^2.1.6",
-    "vue-router": "^3.1.5"
+    "vue-router": "^3.1.5",
+    "webpack-simple": "^1.5.2"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
