@@ -6,6 +6,14 @@ import Login from  './components/Login';
 import Signup from  './components/Signup';
 import NewDocument from './components/NewDocument';
 import EditDocument from './components/EditDocument';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+
+Vue.use(BootstrapVue)
+
+Vue.use(IconsPlugin)
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
