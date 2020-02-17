@@ -1,31 +1,19 @@
 <template>
  <div>
-          <!-- <button @click="logout">Logout</button> -->
-              <!-- <p>{{name}}</p>
-              <p>{{email}}</p><br>
-              <div>
-    <label class="typo__label">Document Title</label>
-    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTag"></multiselect>
-    <pre class="language-json"><code>{{ value }}</code></pre>
-  </div>
-    <br>
-  <div>
-    <label class="typo__label">Document Author</label>
-    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagTwo"></multiselect>
-    <pre class="language-json"><code>{{ value }}</code></pre>
-  </div>
-    <br>
-  <div>
-    <label class="typo__label">Optional Tags</label>
-    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagThree"></multiselect>
-    <pre class="language-json"><code>{{ value }}</code></pre>
-  </div>
-        <button @click="sendObject">Submit</button> -->
-        <ul id="example-1">
-  <li v-for="item in items" v-bind:key="item">
-    {{ item.message }}
-  </li>
-</ul>
+
+    <ul id="example-1">
+      <template v-for = "(item) of items">
+      <!-- <li v-for="(note, note_index) in items._id" v-bind:key="item">
+        {{ item.message }} -->
+   
+        <li v-bind:key="item">
+          
+               {{item._id}}
+               
+      </li>
+      </template>
+  </ul>
+
 </div>
   
 </template>
@@ -36,22 +24,9 @@
 // import moment from 'moment';
 import axios from 'axios';
 import Vue from 'vue';
-window.onload = function () {
-new Vue({
-  el: '#example-1',
-  data: {
-    items: [
-        { message: 'Foo' },
-        { message: 'Bar' }
-      ]
-    }
-  })
-}
- axios.get('http://localhost:5000/editdocument')
-         .then(res=>{
-             console.log("Docs here");
-             console.log(res);
-         })
+
+
+
  export default {
   
    name: 'EditDocument',
@@ -59,85 +34,29 @@ new Vue({
 //     Multiselect
 //   },
 
-//   data () {
-//     return {
-//       value: [
+  data () {
+    return {
+
+  el: '#example-1',
+
+    items: [
+
+    ],
+  }
+},
+ mounted(){
   
-//       ],
-//       options: [
-//       ],
-//       name:'',
-//       email: ''
-//     }
-//   },
-//     mounted(){
-//         axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
-//             .then(res=>{
-//                 console.log(res);
-//                this.name = res.data.user.name;
-//                this.email =res.data.user.email;
-//             })
-//          axios.get('http://localhost:5000/editdocument')
-//          .then(res=>{
-//              console.log("Docs here");
-//              console.log(res);
-//          })
-//     },
-        
-//     methods: {
-//      addTag(newTag) {
-//           const tag = {
-//                   name: newTag,
-//               }
-//               //
-//               this.options.push(tag)
-//               this.value.push(tag)
-//         },
-//         addTagTwo(tag2){
-//                const tag = {
-//                 author: tag2
-//             }
-//             this.value.push(tag);
-//             console.log(tag);
-//         },
-//         addTagThree(tag2){
-//                const tag = {
-//                 optional: tag2
-//             }
-//             this.value.push(tag);
-//             console.log(tag);
-//         },
-//         sendObject(){
-//             axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
-//            .then(res=>{
-//             console.log(res);
-//             this.name = res.data.user.name;
-//             this.email =res.data.user.email;
-//             let object = {
-//                 title: this.value[0].name,
-//                 author: this.value[1].author,
-//                 creator: this.name,
-//                 date: moment().unix(),
-//                 checkedout: 0,
-//                 checkedoutby: '',
-//                 optional: this.value[2].optional
-//               };
-//               console.log(object);
-//               axios.post('http://localhost:5000/newdocument', object)
-//               .then(res =>{
-//                   //if success
-//                   if(res.status == 200){
-//                      console.log("Success");
-//                     // this.$router.push('/newdocument');
-//                   }
-//                   this.error = '';
-//               }, err => {
-//                   console.log("error here");
-//                   console.log(err.response);
-//                   this.error = err.response.data.error;
-//               })
-//             })
-//         }
-//   }
+         axios.get('http://localhost:5000/editdocument')
+         .then(res=>{
+             console.log("Docs here");
+             console.log(res);
+
+            for(let i = 0; i< res.data.length; i++){
+              this.items.push(res.data[i]);
+            }
+         })
+
+         
+   }
  }
 </script>
