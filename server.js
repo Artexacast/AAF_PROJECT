@@ -101,6 +101,14 @@ app.get('/editdocument', (req, res)=>{
     })
 })
 
+app.get('/sendediteddocument', (req, res)=>{
+    Document.find({}, function(err, docs){
+        res.send(docs);
+        console.log(docs);
+    })
+})
+
+
 app.post('/newdocument', (req, res)=>{
     console.log(req.body);
         const newDocument = new Document({
