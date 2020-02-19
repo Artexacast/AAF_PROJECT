@@ -111,7 +111,9 @@ app.get('/sendediteddocument', (req, res)=>{
 
 app.post('/newdocument', (req, res)=>{
     console.log(req.body);
-        const newDocument = new Document({
+         const newDocument = new Document({
+         id:req.body.id,
+         version: req.body.version,
          date: req.body.date,
          author: req.body.author,
          checkedout: req.body.checkedout,

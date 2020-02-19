@@ -1,7 +1,7 @@
 <template>
  <div>
 
-    <ul id="example-1">
+    <ul id="list">
       <template v-for = "(item, index) of items">
       <!-- <li v-for="(note, note_index) in items._id" v-bind:key="item">
         {{ item.message }} -->
@@ -20,7 +20,7 @@
  <!-- <b-form @submit="onSubmit" @reset="onReset" v-if="show"> -->
   <b-modal id="modal-1" centered title="Edit Document">
     hello {{selectedDoc}}
-     <form ref = "form" @submit.stop.prevent="handleSubmit">
+     <form ref = "form" @submit.stop.prevent="sendObject">
 
         <b-form-group  label="Doc Title" label-for="name-input" invalid-feedback="Name is required">
           <b-form-input id="title-input" v-model="doctitle"  required v-bind:placeholder= "selectedDoc.doctitle" >
@@ -38,8 +38,8 @@
         </b-form-group>
 
         <b-form-group id="input-group-4">
-          <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value = "yes">Check out document</b-form-checkbox>
+          <b-form-checkbox-group v-model="checked" id="checkboxes-4">
+          <b-form-checkbox value="Yes" unchecked-value="No">Check out document</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
 
@@ -60,27 +60,29 @@
 
 import axios from 'axios';
 import Vue from 'vue';
+import moment from 'moment';
 
 export default {
   
    name: 'EditDocument',
-//   components: {
-//     Multiselect
-//   },
 
   data () {
     return {
 
-  el: '#example-1',
+  el: '#list',
 
     items: [
     ],
 
     form:[    
     ],
+ 
     name:'',
     email: '',
     selectedDoc: '',
+    checkedoutBy: '',
+    version: '',
+    checked: 'no'
   }
  },
  mounted(){
@@ -114,21 +116,59 @@ export default {
       },
    sendObject(){
 
-            axios.get('http://localhost:5000/sendediteddocument',{headers: {token: localStorage.getItem('token')}})
+  let a = this.selectedDoc.doctitle = this.doctitle;
+  let b = this.selectedDoc.author = this.author;
+  let c = this.selectedDoc.optional = this.optional;
+console.log(this.checked);
+             
+
+  //let checkedout = null;  
+          console.log(a);
+               axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
            .then(res=>{
             console.log(res);
+            this.form.checked;
             this.name = res.data.user.name;
             this.email =res.data.user.email;
+            console.log(this.checked);
+            if(this.checked == "Yes"){
+                  
+                    this.checkedoutBy = this.name;
+                    console.log(this.checkedout);
+                    console.log(this.form)
+                  }
+                  else{
+                    this.checkedoutBy = null;
+                  }
+     
             let object = {
-                title: this.value[0].name,
-                author: this.value[1].author,
-                creator: this.name,
+                id: this.selectedDoc.id,
+                title: a,
+                version: this.selectedDoc.version+1,
+                author: b,
+                creator: this.selectedDoc.creator,
                 date: moment().unix(),
-                checkedout: 1,
-                checkedoutby: this.name,
-                optional: this.value[2].optional
+                checkedout: this.checked,
+                checkedoutby: this.checkedoutBy,
+                optional: c
               };
+              console.log(a, b, c);
+              console.log(object);
+              axios.post('http://localhost:5000/newdocument', object)
+              .then(res =>{
+                  //if success
+                  if(res.status == 200){
+                     console.log("Success");
+                    // this.$router.push('/newdocument');
+                  }
+                  this.error = '';
+              }, err => {
+                  console.log("error here");
+                  console.log(err.response);
+                  this.error = err.response.data.error;
+              })
             })
+      // this.form.checked.value = "No";
         },
           onReset(evt) {
         evt.preventDefault()
