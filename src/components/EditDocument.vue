@@ -23,13 +23,12 @@
      <form ref = "form" @submit.stop.prevent="handleSubmit">
 
         <b-form-group  label="Doc Title" label-for="name-input" invalid-feedback="Name is required">
-          <b-form-input id="title-input" v-model="doctitle"  required v-bind:placeholder= "email" >
+          <b-form-input id="title-input" v-model="doctitle"  required v-bind:placeholder= "selectedDoc.doctitle" >
           </b-form-input>
         </b-form-group>
 
         <b-form-group  label="Doc Author" label-for="name-input" invalid-feedback="Name is required">
           <b-form-input id="author-input" v-model="author" required v-bind:placeholder= "selectedDoc.author">
-        
           </b-form-input>
         </b-form-group>
 
@@ -125,8 +124,8 @@ export default {
                 author: this.value[1].author,
                 creator: this.name,
                 date: moment().unix(),
-                checkedout: 0,
-                checkedoutby: '',
+                checkedout: 1,
+                checkedoutby: this.name,
                 optional: this.value[2].optional
               };
             })
