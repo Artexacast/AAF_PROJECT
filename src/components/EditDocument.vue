@@ -1,29 +1,52 @@
 <template>
- <div>
+<div>
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">NavBar</b-navbar-brand>
 
-    <ul id="list">
-      <template v-for = "(item, index) of items">
-      <!-- <li v-for="(note, note_index) in items._id" v-bind:key="item">
-        {{ item.message }} -->
-   
-        <li v-bind:key="item">
-          
-          {{item.doctitle}} - {{index}}
-        <b-button v-b-modal.modal-1 user="'item'" @click="sendInfo(item)">Edit Document</b-button>           
-      </li>
-    
-      </template>
-     
-  </ul>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-  <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
- <!-- <b-form @submit="onSubmit" @reset="onReset" v-if="show"> -->
+      <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item href="#">Link</b-nav-item>
+        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+      </b-navbar-nav>
+
+      <b-navbar-nav class="ml-auto">
+        <b-nav-form>
+        <b-form-input size="sm" class="mr-sm-2" placeholder="Search" v-model="keyword" ></b-form-input>
+        <b-button size="sm" class="my-2 my-sm-0" type="submit"  v-model="sorted">Search</b-button>
+        </b-nav-form>
+{{keyword}}
+        <b-nav-item-dropdown right>
+        <!-- Using 'button-content' slot -->
+        <template v-slot:button-content>
+          <em>User</em>
+        </template>
+        <b-dropdown-item href="#">Profile</b-dropdown-item>
+        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
+
+<ul id="list">
+  <template v-for = "item in sorted"  >
+    <li v-bind:key="item">
+      {{item.doctitle}} - {{index}}  {{keyword}}
+    <b-button v-b-modal.modal-1 user="'item'" @click="sendInfo(item)">Edit Document</b-button> 
+    <b-button  @click="deleteObject()" type="submit" >Delete Document</b-button>          
+  </li>
+  </template>
+</ul>
+
   <b-modal id="modal-1" centered title="Edit Document">
     hello {{selectedDoc}}
-     <form ref = "form" @submit.stop.prevent="sendObject">
-
-        <b-form-group  label="Doc Title" label-for="name-input" invalid-feedback="Name is required">
-          <b-form-input id="title-input" v-model="doctitle"  required v-bind:placeholder= "selectedDoc.doctitle" >
+    <form ref = "form" @submit.stop.prevent="sendObject">
+      
+      <b-form-group  label="Doc Title" label-for="name-input" invalid-feedback="Name is required">
+        <b-form-input id="title-input" v-model="doctitle"  required v-bind:placeholder= "selectedDoc.doctitle" >
           </b-form-input>
         </b-form-group>
 
@@ -41,34 +64,33 @@
           <b-form-checkbox-group v-model="checked" id="checkboxes-4">
           <b-form-checkbox value="Yes" unchecked-value="No">Check out document</b-form-checkbox>
         </b-form-checkbox-group>
+
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
       </form>
-    
-  </b-modal>
-    <!-- </b-form> -->
-
-  </div>
-     
-
- 
+    </b-modal>
+  </div> 
 </template>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
 <script>
 
 import axios from 'axios';
 import Vue from 'vue';
 import moment from 'moment';
+import NavBar from './NavBar';
 
 export default {
-  
+  components: {
+    NavBar,
+  },
    name: 'EditDocument',
 
   data () {
     return {
-
+  keyword: '',
   el: '#list',
 
     items: [
@@ -82,18 +104,32 @@ export default {
     selectedDoc: '',
     checkedoutBy: '',
     version: '',
-    checked: 'no'
-  }
- },
+    checked: 'no',
+
+    }	
+  },
+
+  computed: {
+		sorted(){
+      const search = this.keyword;
+      if(!search) return this.items;
+
+      let newFilter = this.items.filter(newSearch =>{
+        return newSearch.doctitle == this.keyword
+      })
+      this.items = [];
+      return  this.items = newFilter;
+   
+      }
+	},
  mounted(){
       axios.get('http://localhost:5000/editdocument')
       .then(res=>{
-          console.log("Docs here");
-          console.log(res);
 
         for(let i = 0; i< res.data.length; i++){
           this.items.push(res.data[i]);
         }
+         
       }),
 
       axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
@@ -102,28 +138,45 @@ export default {
         this.name = res.data.user.name;
         this.email =res.data.user.email;
       })
-    //  this.currDocument = items;
 },
 
   methods:{
      sendInfo(item) {
         this.selectedDoc = item;
     },
-          checkFormValidity() {
+
+        checkFormValidity() {
         const valid = this.$refs.form.checkValidity()
         this.nameState = valid
         return valid
       },
+
+    deleteObject(){
+      let object = this.selectedDoc;
+      console.log(object);
+      let objToDelete = {id: object.id}
+      console.log(objToDelete)
+      axios.post('http://localhost:5000/deletedocument', objToDelete).then(res=>{
+
+      if(res.status == 200){
+          console.log("Success");
+        // this.$router.push('/newdocument');
+      }
+      this.error = '';
+      }, err => {
+          console.log("error here");
+          console.log(err.response);
+          this.error = err.response.data.error;
+      })
+   },
    sendObject(){
 
   let a = this.selectedDoc.doctitle = this.doctitle;
   let b = this.selectedDoc.author = this.author;
   let c = this.selectedDoc.optional = this.optional;
-console.log(this.checked);
-             
+  console.log(this.checked);
 
-  //let checkedout = null;  
-          console.log(a);
+  console.log(a);
                axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
            .then(res=>{
             console.log(res);
@@ -132,7 +185,6 @@ console.log(this.checked);
             this.email =res.data.user.email;
             console.log(this.checked);
             if(this.checked == "Yes"){
-                  
                     this.checkedoutBy = this.name;
                     console.log(this.checkedout);
                     console.log(this.form)
@@ -140,7 +192,6 @@ console.log(this.checked);
                   else{
                     this.checkedoutBy = null;
                   }
-     
             let object = {
                 id: this.selectedDoc.id,
                 title: a,
@@ -168,20 +219,10 @@ console.log(this.checked);
                   this.error = err.response.data.error;
               })
             })
-      // this.form.checked.value = "No";
+
         },
           onReset(evt) {
-        evt.preventDefault()
-        // // Reset our form values
-        // this.form.doctitle = ''
-        // this.form.author = ''
-        // this.form.optional = null
-        // this.form.checked = ''
-        // // Trick to reset/clear native browser form validation state
-        // this.show = false
-        // this.$nextTick(() => {
-        //   this.show = true
-        // })
+        evt.preventDefault();
       }
   }
  }

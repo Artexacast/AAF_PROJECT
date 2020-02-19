@@ -57,7 +57,7 @@ app.post('/login', (req, res)=>{
         }
         //incorrect password
         if(!bcrypt.compareSync(req.body.password, user.password)){
-            console.log(req.body.password, user.password);
+          //  console.log(req.body.password, user.password);
     
             return res.status(401).json({
                 title:'Unauthorized: User not found',
@@ -80,7 +80,7 @@ app.get('/user', (req, res)=>{
         if(err) return res.status(401).json({
             title:'Unauthorized'
         })
-        console.log(decoded);
+      //  console.log(decoded);
         User.findOne({_id: decoded.userId}, (err, user)=>{
             if(err) return console.log(err)
             return res.status(200).json({
@@ -94,14 +94,16 @@ app.get('/user', (req, res)=>{
     })
 })
 
-app.get('/editdocument', (req, res)=>{
-    Document.find({}, function(err, docs){
-        res.send(docs);
-        console.log(docs);
-    })
+app.post('/deletedocument', (req, res)=>{
+    console.log(req.body);
+    Document.deleteOne(req.body,function(err, obj) {
+        if (err) throw err;
+        console.log("1 document deleted");
+  
+      });
 })
 
-app.get('/sendediteddocument', (req, res)=>{
+app.get('/editdocument', (req, res)=>{
     Document.find({}, function(err, docs){
         res.send(docs);
         console.log(docs);
@@ -110,7 +112,7 @@ app.get('/sendediteddocument', (req, res)=>{
 
 
 app.post('/newdocument', (req, res)=>{
-    console.log(req.body);
+   // console.log(req.body);
          const newDocument = new Document({
          id:req.body.id,
          version: req.body.version,

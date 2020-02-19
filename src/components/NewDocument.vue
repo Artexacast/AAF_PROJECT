@@ -4,6 +4,12 @@
               <p>{{name}}</p>
               <p>{{email}}</p><br>
               <div>
+    <div>
+    <label class="typo__label">Document ID</label>
+    <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTagFour"></multiselect>
+    <pre class="language-json"><code>{{ value }}</code></pre>
+  </div>
+  <br>
     <label class="typo__label">Document Title</label>
     <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="false" :taggable="true" @tag="addTag"></multiselect>
     <pre class="language-json"><code>{{ value }}</code></pre>
@@ -21,7 +27,6 @@
     <pre class="language-json"><code>{{ value }}</code></pre>
   </div>
         <button @click="sendObject">Submit</button>
-
 </div>
   
 </template>
@@ -80,6 +85,13 @@ export default {
             this.value.push(tag);
             console.log(tag);
         },
+        addTagFour(tag2){
+               const tag = {
+                id: tag2
+            }
+            this.value.push(tag);
+            console.log(tag);
+        },
         sendObject(){
             axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
            .then(res=>{
@@ -87,15 +99,17 @@ export default {
             this.name = res.data.user.name;
             this.email =res.data.user.email;
             let object = {
+                id: this.value[3].id,
                 title: this.value[0].name,
                 author: this.value[1].author,
                 creator: this.name,
                 date: moment().unix(),
+                version: 1,
                 checkedout: 0,
                 checkedoutby: '',
                 optional: this.value[2].optional
               };
-              console.log(object);
+              console.log(this.value);
               axios.post('http://localhost:5000/newdocument', object)
               .then(res =>{
                   //if success

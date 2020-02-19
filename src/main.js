@@ -23,7 +23,7 @@ const routes = [
     {path: '/signup', component: Signup},
     {path: '/login', component: Login},
     {path: '/newdocument', component: NewDocument},
-    {path: '/editdocument', component: EditDocument}
+    {path: '/editdocument', component: EditDocument},
 ]
 
 const router = new VueRouter({
