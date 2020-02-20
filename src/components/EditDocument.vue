@@ -8,11 +8,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
-      <!-- <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
-      </b-navbar-nav> -->
-
+      
       <b-navbar-nav class="ml-auto">
         <b-nav-form>
         
@@ -33,7 +29,7 @@
   </div>
 <b-list-group>
   <template v-for = "item in sorted" class="nubull">
-  <b-list-group-item v-bind:key="item"> {{item.doctitle}} 
+  <b-list-group-item v-bind:key="item"> {{item.doctitle}} - {{item.id}} - {{item.version}} - {{item.checkedoutby}}
     <div class="float-right">
   <b-button v-b-modal.modal-1 user="'item'" @click="sendInfo(item)">Edit Document</b-button> 
   <b-button  @click="deleteObject()" type="submit" >Delete Document</b-button>    
@@ -62,6 +58,9 @@
         <b-form-group id="input-group-4">
           <b-form-checkbox-group v-model="checked" id="checkboxes-4">
           <b-form-checkbox value="Yes" unchecked-value="No">Check out document</b-form-checkbox>
+           </b-form-checkbox-group>
+           <b-form-checkbox-group v-model="checkedin" id="checkboxes-4">
+          <b-form-checkbox value="Yes" unchecked-value="No">Check in document</b-form-checkbox>
         </b-form-checkbox-group>
 
       </b-form-group>
@@ -75,7 +74,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
 <script>
-
 
 import axios from 'axios';
 import Vue from 'vue';
@@ -98,13 +96,16 @@ export default {
 
     form:[    
     ],
- 
+  checkedoutdocs:[
+
+  ],
     name:'',
     email: '',
     selectedDoc: '',
     checkedoutBy: '',
     version: '',
     checked: 'no',
+    checkedin:'no'
 
     }	
   },
@@ -124,7 +125,7 @@ export default {
       })
       this.items = [];
       return  this.items = newFilter;
-   
+
       }
 	},
  mounted(){
@@ -174,7 +175,7 @@ export default {
           this.error = err.response.data.error;
       })
    },
-   sendObject(){
+  sendObject(){
   let a = this.selectedDoc.doctitle = this.doctitle;
   let b = this.selectedDoc.author = this.author;
   let c = this.selectedDoc.optional = this.optional;
@@ -189,6 +190,15 @@ export default {
             console.log(this.checked);
             if(this.checked == "Yes"){
                     this.checkedoutBy = this.name;
+                    console.log(this.checkedout);
+                    console.log(this.form)
+                  }
+                  else{
+                    this.checkedoutBy = null;
+                  }
+                  if(this.checkedin == "Yes"){
+                    this.checked="no"
+                    this.checkedoutBy = null;
                     console.log(this.checkedout);
                     console.log(this.form)
                   }
