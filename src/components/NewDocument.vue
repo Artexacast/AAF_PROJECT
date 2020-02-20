@@ -3,6 +3,8 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand href="#">New Document</b-navbar-brand>
+      <b-navbar-brand href="/EditDocument">Edit Document</b-navbar-brand> 
+      <b-navbar-brand href="/Users">Control</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -75,6 +77,12 @@ import moment from 'moment';
           name:'',
         },
       }
+    },
+      created(){
+        //if no token, send to login page
+        if(localStorage.getItem('token')==null){
+            this.$router.push('/login');
+        }
     },
     methods: {
       onSubmit(evt) {

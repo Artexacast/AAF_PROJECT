@@ -67,6 +67,7 @@ app.post('/login', (req, res)=>{
 
         //if successful login
         let token = jwt.sign({userId: user._id}, 'eMXdP7P5jY58zbeq');
+        console.log("success");
         return res.status(200).json({
             title: 'Login Success',
             token: token
@@ -76,7 +77,7 @@ app.post('/login', (req, res)=>{
 
 app.get('/user', (req, res)=>{
     let token = req.headers.token;
-    jwt.verify(token, 'eMXdP7P5jY58zbeq', (err, decoded) =>{
+    jwt.verify(token, 'eMXdP7P5jY58zbsadasdeq', (err, decoded) =>{
         if(err) return res.status(401).json({
             title:'Unauthorized'
         })
@@ -95,15 +96,39 @@ app.get('/user', (req, res)=>{
 })
 
 app.post('/deletedocument', (req, res)=>{
-    console.log(req.body);
+
     Document.deleteOne(req.body,function(err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
       });
 })
 
+app.post('/deleteuser', (req, res)=>{
+
+    User.deleteOne(req.body,function(err, obj) {
+        if (err) throw err;
+        console.log("1 user deleted");
+      });
+})
+
 app.get('/editdocument', (req, res)=>{
     Document.find({}, function(err, docs){
+        res.send(docs);
+        
+    })
+})
+
+
+app.post('/edituser', (req, res)=>{
+    User.find({}, function(err, user){
+        res.send(user);
+    
+    })
+})
+
+
+app.get('/allusers', (req, res)=>{
+    User.find({}, function(err, docs){
         res.send(docs);
         console.log(docs);
     })

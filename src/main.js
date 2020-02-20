@@ -6,6 +6,7 @@ import Login from  './components/Login';
 import Signup from  './components/Signup';
 import NewDocument from './components/NewDocument';
 import EditDocument from './components/EditDocument';
+import Users from './components/Users';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -24,6 +25,7 @@ const routes = [
     {path: '/login', component: Login},
     {path: '/newdocument', component: NewDocument},
     {path: '/editdocument', component: EditDocument},
+    {path: '/Users', component: Users},
 ]
 
 const router = new VueRouter({
