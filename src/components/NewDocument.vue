@@ -4,7 +4,7 @@
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand href="#">New Document</b-navbar-brand>
       <b-navbar-brand href="/EditDocument">Edit Document</b-navbar-brand> 
-      <b-navbar-brand href="/Users">Control</b-navbar-brand>
+      <b-navbar-brand href="/Users">User Control</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -92,13 +92,7 @@ import moment from 'moment';
         console.log(res);
         this.name = res.data.user.name;
         this.email =res.data.user.email;
-
-            }, err => {
-                  console.log("error here");
-                  console.log(err.response);
-                  this.error = err.response.data.error;
-              });
-              let object = {
+          let object = {
             id: this.form.id,
             title: this.form.title,
             author: this.form.author,
@@ -124,6 +118,12 @@ import moment from 'moment';
                   console.log(err.response);
                   this.error = err.response.data.error;
               })
+            }, err => {
+                  console.log("error here");
+                  console.log(err.response);
+                  this.error = err.response.data.error;
+              });
+            
       },
       onReset(evt) {
         evt.preventDefault()
