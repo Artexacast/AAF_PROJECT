@@ -3,6 +3,7 @@
         Email:<input type = "text" v-model="email"/><br>
         Password:<input type = "password" v-model="password"/><br>
         <button @click="login">Submit</button>
+        <button href="/signup">Sign Up</button>
         {{error}}
     </div>
 </template>

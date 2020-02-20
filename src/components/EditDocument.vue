@@ -32,7 +32,7 @@
   </div>
 <b-list-group>
   <template v-for = "item in sorted" class="nubull">
-  <b-list-group-item v-bind:key="item"> {{item.doctitle}} 
+  <b-list-group-item v-bind:key="item"> {{item.doctitle}} -{{item.checkedoutby}}
     <div class="float-right">
   <b-button v-b-modal.modal-1 user="'item'" @click="sendInfo(item)">Edit Document</b-button> 
   <b-button  @click="deleteObject()" type="submit" >Delete Document</b-button>    
@@ -97,6 +97,8 @@ export default {
 
     form:[    
     ],
+
+    checkedoutdocs:[],
  
     name:'',
     email: '',
@@ -127,21 +129,28 @@ export default {
       }
 	},
  mounted(){
+     axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
+        .then(res=>{
+        console.log(res);
+        this.name = res.data.user.name;
+        this.email =res.data.user.email;
+      }),
       axios.get('http://localhost:5000/editdocument')
       .then(res=>{
 
         for(let i = 0; i< res.data.length; i++){
           this.items.push(res.data[i]);
+           if(res.data[i].checkedoutby == this.name)
+          this.checkedoutdocs.push(res.data[i]);
         }
-         
-      }),
+         console.log(checkedoutdocs);
+     
 
-      axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
-        .then(res=>{
-        console.log(res);
-        this.name = res.data.user.name;
-        this.email =res.data.user.email;
+        console.log("Here");
+        console.log(this.checkedoutdocs);
+         
       })
+    
 },
 
   methods:{
@@ -180,10 +189,12 @@ export default {
   console.log(this.checked);
 
   console.log(a);
-               axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
+            axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
            .then(res=>{
             console.log(res);
-            this.form.checked;
+        
+            })
+    this.form.checked;
             this.name = res.data.user.name;
             this.email =res.data.user.email;
             console.log(this.checked);
@@ -221,8 +232,6 @@ export default {
                   console.log(err.response);
                   this.error = err.response.data.error;
               })
-            })
-
         },
           onReset(evt) {
         evt.preventDefault();
