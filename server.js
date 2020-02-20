@@ -66,8 +66,9 @@ app.post('/login', (req, res)=>{
         }
 
         //if successful login
-        let token = jwt.sign({userId: user._id}, 'eMXdP7P5jY58zbeq');
+        let token = jwt.sign({userId: user._id}, 'eMXdP7P5jY58zbsadasdeq');
         console.log("success");
+        console.log(token)
         return res.status(200).json({
             title: 'Login Success',
             token: token
@@ -77,6 +78,7 @@ app.post('/login', (req, res)=>{
 
 app.get('/user', (req, res)=>{
     let token = req.headers.token;
+    console.log(token)
     jwt.verify(token, 'eMXdP7P5jY58zbsadasdeq', (err, decoded) =>{
         if(err) return res.status(401).json({
             title:'Unauthorized'

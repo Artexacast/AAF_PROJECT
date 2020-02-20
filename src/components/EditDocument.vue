@@ -177,7 +177,6 @@ export default {
   let a = this.selectedDoc.doctitle = this.doctitle;
   let b = this.selectedDoc.author = this.author;
   let c = this.selectedDoc.optional = this.optional;
-  console.log(this.checked);
 
   console.log(a);
                axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})

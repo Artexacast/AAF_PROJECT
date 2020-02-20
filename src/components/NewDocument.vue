@@ -92,8 +92,12 @@ import moment from 'moment';
         console.log(res);
         this.name = res.data.user.name;
         this.email =res.data.user.email;
-      
-            });
+
+            }, err => {
+                  console.log("error here");
+                  console.log(err.response);
+                  this.error = err.response.data.error;
+              });
               let object = {
             id: this.form.id,
             title: this.form.title,

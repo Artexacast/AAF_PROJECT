@@ -151,7 +151,7 @@ export default {
       let objToDelete = {email: object.email}
       console.log(objToDelete)
       axios.post('http://localhost:5000/deleteuser', objToDelete).then(res=>{
-
+      
       if(res.status == 200){
           console.log("Success");
         // this.$router.push('/newdocument');
