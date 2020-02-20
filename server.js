@@ -99,7 +99,6 @@ app.post('/deletedocument', (req, res)=>{
     Document.deleteOne(req.body,function(err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
-  
       });
 })
 

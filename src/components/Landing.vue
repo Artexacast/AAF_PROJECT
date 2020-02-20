@@ -24,8 +24,6 @@
 <script type="text/x-template" id="modal-template">
 
 import axios from 'axios';
-//import Multiselect from 'vue-multiselect';
-//import objectmerge from 'object-merge';
 
 export default {
 
