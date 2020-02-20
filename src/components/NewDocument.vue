@@ -92,7 +92,9 @@ import moment from 'moment';
         console.log(res);
         this.name = res.data.user.name;
         this.email =res.data.user.email;
-        let object = {
+      
+            });
+              let object = {
             id: this.form.id,
             title: this.form.title,
             author: this.form.author,
@@ -118,7 +120,6 @@ import moment from 'moment';
                   console.log(err.response);
                   this.error = err.response.data.error;
               })
-            })
       },
       onReset(evt) {
         evt.preventDefault()
