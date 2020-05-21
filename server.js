@@ -116,7 +116,6 @@ app.post('/deleteuser', (req, res)=>{
 app.get('/editdocument', (req, res)=>{
     Document.find({}, function(err, docs){
         res.send(docs);
-        
     })
 })
 

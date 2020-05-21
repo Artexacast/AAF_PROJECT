@@ -75,7 +75,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
 <script>
 
-
 import axios from 'axios';
 import Vue from 'vue';
 import moment from 'moment';
@@ -184,7 +183,7 @@ export default {
             console.log(res);
             this.form.checked;
             this.name = res.data.user.name;
-            this.email =res.data.user.email;
+            this.email = res.data.user.email;
             console.log(this.checked);
             if(this.checked == "Yes"){
                     this.checkedoutBy = this.name;
