@@ -35,8 +35,8 @@ export default {
                 }
                     this.error = '';
             }, err => {
-                console.log("error here");
-                console.log(err.response);
+                // console.log("error here");
+                // console.log(err.response);
                 this.error = err.response.data.error;
             })
         }

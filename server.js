@@ -154,7 +154,7 @@ app.post('/newdocument', (req, res)=>{
         if(err){
             return res.status(400).json({
                 title:'error',
-                error:'email in use'
+                error:'Bad Request'
             })
         }
             return res.status(200).json({

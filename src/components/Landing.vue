@@ -49,9 +49,9 @@ export default {
     },
     mounted(){
         axios.get('http://localhost:5000/user',{headers: {token: localStorage.getItem('token')}})
-            .then(res=>{
-                console.log(res);
-            })
+            // .then(res=>{
+            //    // console.log(res);
+            // })
         },
     methods:{
         logout(){

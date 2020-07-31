@@ -108,9 +108,7 @@ import moment from 'moment';
               .then(res =>{
                   //if success
                   if(res.status == 200){
-                      console.log(object);
                      console.log("Success");
-                    // this.$router.push('/newdocument');
                   }
                   this.error = '';
               }, err => {
